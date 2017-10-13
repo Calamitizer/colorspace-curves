@@ -1,0 +1,11 @@
+{
+  "name": "colorspace-curves",
+  "version": "1.0.0",
+  "description": "A React applet displaying a path through RGB colorspace, along the path of the 3D Hilbert curve (a continuous 3-space-filling fractal).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "J. Alex Ruble",
+  "license": "MIT"
+}
