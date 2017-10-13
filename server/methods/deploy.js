@@ -11,6 +11,7 @@
     var path = require('path');
     var http = require('http');
 
+    var apiRouter = require('../routers/api.v1.js');
     var assetRouter = require('../routers/asset.js');
     var siteRouter = require('../routers/site.js');
 
@@ -23,6 +24,7 @@
             extended: true,
         }))
         .use(compression())
+        .use('/api/v1', apiRouter)
         .use('/', assetRouter)
         .use('/', siteRouter);
 
