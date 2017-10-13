@@ -11,7 +11,7 @@ public class Hilbert3Generator {
     private static int sectors;
     private final int iter;
     private final String filename;
-    private final static String filepath = "../hilbert-3d-jsons/";
+    private final static String filepath = "../json/";
     private final static int[][] basePath = {
         { 0,  0,  0},
         { 0,  0, +1},
