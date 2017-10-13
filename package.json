@@ -28,6 +28,7 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.2.0",
     "gulp-less": "^3.3.2",
     "gulp-rename": "^1.2.2",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
     "d3": "^4.11.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",

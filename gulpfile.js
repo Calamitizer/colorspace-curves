@@ -4,6 +4,7 @@
     var gulp = require('gulp');
     var del = require('del');
     var replace = require('gulp-replace');
+    var concat = require('gulp-concat');
     var less = require('gulp-less');
     var cssmin = require('gulp-cssmin');
     var autoprefixer = require('gulp-autoprefixer');
@@ -24,7 +25,7 @@
     var files = {
         html: {
             in: [
-                dir.in + '**/*.html',
+                dir.in + '/**/*.html',
             ],
         },
         less: {
@@ -55,7 +56,7 @@
 
     gulp.task('clean', function() {
         var options = {
-            dryRun: true,
+            dryRun: false,
         };
 
         return del(

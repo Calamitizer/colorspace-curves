@@ -21,7 +21,7 @@
                     test: /\.jsx?$/,
                     include: dir.in,
                     exclude: /node_modules/,
-                    loader: 'babel',
+                    loader: 'babel-loader',
                 },
                 {
                     test: /\.json$/,

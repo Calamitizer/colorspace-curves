@@ -12,7 +12,7 @@
         .use(function(req, res, next) {
             console.log('Site request made.\n'
                 + 'Base: ' + req.baseUrl + '\n'
-                + 'Original: ' req.originalUrl + '\n'
+                + 'Original: ' + req.originalUrl + '\n'
                 + 'Url: ' + req.Url);
             next();
         })
