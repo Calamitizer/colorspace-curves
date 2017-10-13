@@ -15,7 +15,7 @@
                 }
                 resolve(data);
             })
-        });
+        }).then(JSON.parse);
     };
 
     module.exports = fetchCurve;
