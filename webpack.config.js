@@ -10,7 +10,7 @@
 
     var config = {
         context: __dirname,
-        entry: path.join(dir.in, 'entry.jsx'),
+        entry: path.join(dir.in, 'csc.jsx'),
         output: {
             path: dir.out,
             filename: 'bundle.js',
