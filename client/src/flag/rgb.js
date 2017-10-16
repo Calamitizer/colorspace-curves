@@ -27,7 +27,6 @@
         get formatCSS() {
             return `rgb(${this.color.join(', ')})`;
         }
-
     }
 
     module.exports = RGB;

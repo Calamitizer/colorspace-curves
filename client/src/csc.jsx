@@ -6,10 +6,23 @@
 
     const d3 = require('d3');
 
-    const Stripe = require('./flag/stripe.jsx');
     const RGB = require('./flag/rgb.js'); // remove after unit testing
+    const Flag = require('./flag/flag.jsx');
 
     console.log('Entry.js has begun running');
+
+    const x = 255;
+
+    const testColors = [
+        [0, 0, 0],
+        [x, 0, 0],
+        [x, x, 0],
+        [0, x, 0],
+        [0, x, x],
+        [0, 0, x],
+        [x, 0, x],
+        [x, x, x],
+    ];
 
     class CSC extends React.Component {
         constructor(props) {
@@ -19,8 +32,7 @@
         render() {
             return (
                 <div>
-                    <h1>RGB</h1>
-                    <Stripe color={new RGB(16, 127, 254)} />
+                    <Flag colors={testColors} />
                 </div>
             );
         }

@@ -5,20 +5,8 @@
 
     const RGB = require('./rgb.js');
 
-    const defaultProps = {
-        // color (required),
-        width: 1200,
-        height: 100,
-        margin: {
-            top: 0,
-            right: 60,
-            bottom: 0,
-            left: 30,
-        },
-    };
-
     const propTypes = {
-        color: PropTypes.instanceOf(RGB).isRequired,
+        colors: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
         width: PropTypes.number,
         height: PropTypes.number,
         margin: PropTypes.shape({
@@ -29,9 +17,21 @@
         }),
     };
 
+    const defaultProps = {
+        // colors (required),
+        width: 1200,
+        height: 900,
+        margin: {
+            top: 0,
+            right: 60,
+            bottom: 0,
+            left: 30,
+        },
+    };
+
     const config = {
-        defaultProps,
         propTypes,
+        defaultProps,
     }
 
     module.exports = config;
