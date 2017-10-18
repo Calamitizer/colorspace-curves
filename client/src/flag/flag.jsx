@@ -8,13 +8,13 @@
     const axios = require('axios');
     const shortid = require('shortid');
 
-    const config = require('./flag-config.js');
+    const scheme = require('./flag-scheme.js');
     const RGB = require('./rgb.js');
     const Stripe = require('./stripe.jsx');
 
     class Flag extends React.Component {
-        static propTypes = config.propTypes
-        static defaultProps = config.defaultProps
+        static propTypes = scheme.propTypes
+        static defaultProps = scheme.defaultProps
 
         constructor(props) {
             super(props);
@@ -44,7 +44,7 @@
 
         componentDidMount() {
             const {
-                color,
+                colors,
                 width,
                 height,
                 margin,
@@ -63,15 +63,10 @@
 
             const stripes = flag
                 .selectAll('g.stripe')
-                .attr('transform', (s, i) => `translate(0, ${i * stripeHeight})`)
-                .attr('x', (_, i) => i)
+                .attr('transform', (s, i) => `translate(0, ${i * stripeHeight})`);
 
             const rects = stripes
-                .select('rect.stripe-rect')
-                .attr('width', width)
-                .attr('height', stripeHeight)
-                .attr('fill', (d) => new RGB(...d.color).formatHex)
-                .attr('stroke', 'black');
+                .select('rect.stripe-rect');
         }
 
         render() {
@@ -83,8 +78,14 @@
             } = this.props;
 
             return (
-                <svg>
-                    <g className="flag">
+                <svg
+                    width={width + margin.left + margin.right}
+                    height={height + margin.top + margin.bottom}
+                >
+                    <g
+                        className='flag'
+                        transform={`translate(${margin.top},${margin.left})`}
+                    >
                         {this.stripes}
                     </g>
                 </svg>

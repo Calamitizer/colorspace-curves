@@ -29,10 +29,10 @@
         },
     };
 
-    const config = {
+    const scheme = {
         propTypes,
         defaultProps,
     }
 
-    module.exports = config;
+    module.exports = scheme;
 }());

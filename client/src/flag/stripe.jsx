@@ -7,7 +7,7 @@
     const PropTypes = require('prop-types');
     const d3 = require('d3');
 
-    const config = require('./stripe-config.js');
+    const scheme = require('./stripe-scheme.js');
     const RGB = require('./rgb.js');
 
     class Stripe extends React.Component {
@@ -16,8 +16,8 @@
             this.state = {};
         }
 
-        static propTypes = config.propTypes
-        static defaultProps = config.defaultProps
+        static propTypes = scheme.propTypes
+        static defaultProps = scheme.defaultProps
 
         componentDidMount() {
             /*
@@ -38,11 +38,21 @@
         }
 
         render() {
-            const color = this.props.color;
+            const {
+                color,
+                width,
+                height,
+                margin,
+            } = this.props
 
             return (
                 <g className='stripe'>
-                    <rect className='stripe-rect' />
+                    <rect
+                        className='stripe-rect'
+                        width={width}
+                        height={height}
+                        fill={color.formatHex}
+                    />
                     <text x='50' y='100'>{color.formatHex}</text>
                 </g>
             );
