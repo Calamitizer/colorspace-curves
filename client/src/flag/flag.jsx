@@ -39,34 +39,21 @@
         }
 
         componentWillMount() {
-            this.stripes = this.props.colors.map(this.makeStripe, this);
+            /* */
         }
 
         componentDidMount() {
-            const {
-                colors,
-                width,
-                height,
-                margin,
-            } = this.props;
+            this.node = ReactDOM.findDOMNode(this);
 
-            const stripeHeight = height / this.props.colors.length;
+            // position stripes
+            const stripeHeight = this.props.height / this.props.colors.length;
 
-            const container = d3
-                .select(ReactDOM.findDOMNode(this))
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom);
-
-            const flag = container
-                .select('g.flag')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
-
-            const stripes = flag
+            d3
+                .select(this.node)
                 .selectAll('g.stripe')
-                .attr('transform', (s, i) => `translate(0, ${i * stripeHeight})`);
-
-            const rects = stripes
-                .select('rect.stripe-rect');
+                .attr('transform', (s, i) => {
+                    return `translate(0, ${i * stripeHeight})`;
+                });
         }
 
         render() {
@@ -84,9 +71,9 @@
                 >
                     <g
                         className='flag'
-                        transform={`translate(${margin.top},${margin.left})`}
+                        transform={`translate(${margin.left},${margin.top})`}
                     >
-                        {this.stripes}
+                        {colors.map(this.makeStripe, this)}
                     </g>
                 </svg>
             );

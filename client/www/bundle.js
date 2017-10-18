@@ -45500,38 +45500,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'componentWillMount',
             value: function componentWillMount() {
-                this.stripes = this.props.colors.map(this.makeStripe, this);
+                /* */
             }
         }, {
             key: 'componentDidMount',
             value: function componentDidMount() {
+                this.node = ReactDOM.findDOMNode(this);
+
+                // position stripes
+                var stripeHeight = this.props.height / this.props.colors.length;
+
+                d3.select(this.node).selectAll('g.stripe').attr('transform', function (s, i) {
+                    return 'translate(0, ' + i * stripeHeight + ')';
+                });
+            }
+        }, {
+            key: 'render',
+            value: function render() {
                 var _props = this.props,
                     colors = _props.colors,
                     width = _props.width,
                     height = _props.height,
                     margin = _props.margin;
-
-
-                var stripeHeight = height / this.props.colors.length;
-
-                var container = d3.select(ReactDOM.findDOMNode(this)).attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-
-                var flag = container.select('g.flag').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-                var stripes = flag.selectAll('g.stripe').attr('transform', function (s, i) {
-                    return 'translate(0, ' + i * stripeHeight + ')';
-                });
-
-                var rects = stripes.select('rect.stripe-rect');
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _props2 = this.props,
-                    colors = _props2.colors,
-                    width = _props2.width,
-                    height = _props2.height,
-                    margin = _props2.margin;
 
 
                 return React.createElement(
@@ -45544,9 +45534,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         'g',
                         {
                             className: 'flag',
-                            transform: 'translate(' + margin.top + ',' + margin.left + ')'
+                            transform: 'translate(' + margin.left + ',' + margin.top + ')'
                         },
-                        this.stripes
+                        colors.map(this.makeStripe, this)
                     )
                 );
 
