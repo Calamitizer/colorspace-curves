@@ -6,7 +6,7 @@
     const RGB = require('./rgb.js');
 
     const propTypes = {
-        colors: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+        iter: PropTypes.number.isRequired,
         width: PropTypes.number,
         height: PropTypes.number,
         margin: PropTypes.shape({
@@ -18,7 +18,7 @@
     };
 
     const defaultProps = {
-        // colors (required),
+        // iter (required),
         width: 1200,
         height: 900,
         margin: {

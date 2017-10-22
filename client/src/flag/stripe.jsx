@@ -25,7 +25,6 @@
             this.d3Node
                 .datum(this.props.color)
                 .attr('x', 200);
-            */
 
             d3
                 .select(ReactDOM.findDOMNode(this))
@@ -35,6 +34,7 @@
 
             console.log(typeof this.props.color);
             console.log(this.props.color);
+            */
         }
 
         render() {
@@ -53,7 +53,14 @@
                         height={height}
                         fill={color.formatHex}
                     />
-                    <text x='50' y='100'>{color.formatHex}</text>
+                    <text
+                        x={width / 2}
+                        y={height / 2}
+                        textAnchor='middle'
+                        dominantBaseline='central'
+                        fontSize="35"
+                        fill={color.invert().formatHex}
+                    >{color.formatHex}</text>
                 </g>
             );
 

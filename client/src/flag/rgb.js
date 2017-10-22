@@ -3,7 +3,7 @@
 
     const RGB = class RGB {
         constructor(r, g, b) {
-            this.color = [
+            this.comps = [
                 r,
                 g,
                 b,
@@ -16,7 +16,7 @@
 
         get formatHex() {
             return '#' + (
-                this.color
+                this.comps
                     .map(RGB.toHex)
                     .map(el => el.toUpperCase())
                     .map(el => '0'.repeat(2 - el.length) + el)
@@ -25,7 +25,11 @@
         }
 
         get formatCSS() {
-            return `rgb(${this.color.join(', ')})`;
+            return `rgb(${this.comps.join(', ')})`;
+        }
+
+        invert() {
+            return new RGB(...this.comps.map(x => 255 - x));
         }
     }
 

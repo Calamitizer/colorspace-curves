@@ -8,11 +8,13 @@
 
     const RGB = require('./flag/rgb.js'); // remove after unit testing
     const Flag = require('./flag/flag.jsx');
+    const requestCurve = require('./request-curve.js');
 
     console.log('Entry.js has begun running');
 
     const x = 255;
 
+    /*
     const testColors = [
         [0, 0, 0],
         [x, 0, 0],
@@ -23,16 +25,20 @@
         [x, 0, x],
         [x, x, x],
     ];
+    */
+
+    const testColors = requestCurve(2);
 
     class CSC extends React.Component {
         constructor(props) {
             super(props);
+            this.state = {};
         }
 
         render() {
             return (
                 <div>
-                    <Flag colors={testColors} />
+                    <Flag iter={2} />
                 </div>
             );
         }

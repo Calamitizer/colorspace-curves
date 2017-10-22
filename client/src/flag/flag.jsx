@@ -11,6 +11,7 @@
     const scheme = require('./flag-scheme.js');
     const RGB = require('./rgb.js');
     const Stripe = require('./stripe.jsx');
+    const requestCurve = require('../request-curve.js');
 
     class Flag extends React.Component {
         static propTypes = scheme.propTypes
@@ -19,11 +20,12 @@
         constructor(props) {
             super(props);
             this.state = {
-                data: [],
-                dataLoaded: false,
+                colors: [],
+                colorsLoaded: false,
             };
         }
 
+        // make arrow/static?
         makeStripe(c) {
             const stripe = (
                 <Stripe
@@ -31,7 +33,7 @@
                     key={shortid.generate()}
                     color={new RGB(...c)}
                     width={this.props.width}
-                    height={this.props.height / this.props.colors.length}
+                    height={this.props.height / this.state.colors.length}
                 />
             );
 
@@ -39,26 +41,39 @@
         }
 
         componentWillMount() {
-            /* */
+            // get colors
+            requestCurve(this.props.iter).then(res => {
+                console.log('res:');
+                console.log(res);
+                this.setState({
+                    colors: res,
+                    colorsLoaded: true,
+                });
+            });
         }
 
         componentDidMount() {
             this.node = ReactDOM.findDOMNode(this);
+        }
 
-            // position stripes
-            const stripeHeight = this.props.height / this.props.colors.length;
+        componentDidUpdate() {
+            this.positionStripes();
+        }
+
+        positionStripes() {
+            const stripeHeight = this.props.height / this.state.colors.length;
 
             d3
                 .select(this.node)
                 .selectAll('g.stripe')
-                .attr('transform', (s, i) => {
+                .attr('transform', (_, i) => {
                     return `translate(0, ${i * stripeHeight})`;
                 });
         }
 
+
         render() {
             const {
-                colors,
                 width,
                 height,
                 margin,
@@ -73,7 +88,7 @@
                         className='flag'
                         transform={`translate(${margin.left},${margin.top})`}
                     >
-                        {colors.map(this.makeStripe, this)}
+                        {this.state.colors.map(this.makeStripe, this)}
                     </g>
                 </svg>
             );
