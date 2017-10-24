@@ -1830,6 +1830,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 })))))();
             }
         }, {
+            key: 'transform',
+            value: function transform(t) {
+                // t: an RGBTransform
+                var newComps = new (Function.prototype.bind.apply(RGB, [null].concat(_toConsumableArray(t.transform(this.comps)))))();
+                return newComps;
+            }
+        }, {
             key: 'formatHex',
             get: function get() {
                 return '#' + this.comps.map(RGB.toHex).map(function (el) {

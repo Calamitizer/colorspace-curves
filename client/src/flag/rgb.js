@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    const RGB = class RGB {
+    class RGB {
         constructor(r, g, b) {
             this.comps = [
                 r,
@@ -30,6 +30,12 @@
 
         invert() {
             return new RGB(...this.comps.map(x => 255 - x));
+        }
+
+        transform(t) {
+            // t: an RGBTransform
+            const newComps = new RGB(...t.transform(this.comps));
+            return newComps;
         }
     }
 
