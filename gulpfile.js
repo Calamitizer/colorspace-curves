@@ -39,7 +39,7 @@
             ],
         },
         jsx: {
-            in: path.join(dir.in, 'csc.jsx'),
+            in: path.join(dir.in, '/csc/csc.jsx'),
             out: path.join(dir.out, 'bundle.js'),
         },
         json: {

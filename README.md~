@@ -10,7 +10,7 @@ for (var i = 0; i < data.length; i++) {
 }
 ```
 
-So what's the advantage of using a Hilbert curve instead of a dimension-wise crawl? Well, the Hilbert curve preserves locality: Two points along the path are always going to be mapped to two points in the target space that are close together. In contrast, there are points in the naive loop above where we go from `data[i][data[i].length - 1]` to `data[i + 1][0]`, namely when we "finish" a row and jump to the beginning of the next one. If you're doing something like image processing with thresholding, this means the excess of one pixel could be tacked onto some other pixel nowhere near the first one.
+So what's the advantage of using a Hilbert curve instead of a dimension-wise crawl? Well, the Hilbert curve preserves locality: Two points along the path are always going to be mapped to two points in the target space that are close together. To contrast, there are points in the naive loop above where we go from `data[i][data[i].length - 1]` to `data[i + 1][0]`, namely when we "finish" a row and jump to the beginning of the next one. If you're doing something like image processing with thresholding, this means the excess of one pixel could be tacked onto some other pixel nowhere near the first one.
 
 So what am I doing with it?
 
@@ -74,7 +74,7 @@ Routers ('/server/routers/`):
 
 ---
 
-## API Specification
+## API
 
 The server exposes a RESTful API to retrieve Hilbert curve data for a given depth of iteration.
 
@@ -121,7 +121,7 @@ returns (without whitespace)
 
 ## Hilbert Algorithm
 
-I found the example algorithms online for a 3-D or N-D Hilbert curve to be both scarce and obtuse, so I made a Java program of my own. This is located in `/hilbert-3d/`. The output JSONs are static, and aren't generated on-demand by the API or anything fancy; the code is just provided as reference. In case anyone else is searching for such an algorithm and stumbles upon mine, it's hopefully more intuitive than what I found.
+I found the example algorithms online for a 3-D or N-D Hilbert curve to be both scarce and obtuse, so I made a Java program of my own. This is located in `/hilbert-3d/`. The output JSONs are static, and aren't generated on-demand by the API or anything; the code is just provided as reference. In case anyone else is searching for such an algorithm and stumbles upon mine, it's hopefully more intuitive than what I found.
 
 First of all, the data I manipulate are not sequences of positions, but just sequences of steps. For example, I represent the first iterate,
 
@@ -151,28 +151,22 @@ by
     [ 0,  0, -1],
 ```
 
-or in other words, the sequence of unit steps `[+z, +y, -z, +x, +z, -y, -z]`. Since the final curve is just the partial sum of its sequence of steps, this means you never have to deal with the messy busines of *translating* a curve, only rotating it.
+or in otherwords the sequence of unit steps `[+z, +y, -z, +x, +z, -y, -z]`. Since the final curve is just the partial sum of this sequence, this means you never have to deal with the messy busines of *translating* a curve, only rotating it.
 
-The eight rotations are hard-coded, and obtained by basically just staring at the first two pictures on [this page](http://www.math.uwaterloo.ca/~wgilbert/Research/HilbertCurve/HilbertCurve.html) until my brain started hurting.
+The eight rotations were obtain by basically just staring at the first two pictures on [this page](http://www.math.uwaterloo.ca/~wgilbert/Research/HilbertCurve/HilbertCurve.html) until my brain started hurting.
 
-Mathematical details:
-the rotations of 3-D coordinate space can be represented in code by the 48 3x3 matrices satisfying
+(Mathematical details: the translations of 3-D coordinate space are represented by the 48 3x3 matrices satisfying
 
-* each row or column contains exactly one nonzero element.
+* each row and column contains exactly one nonzero element.
 * each nonzero element is +1 or -1.
 
-For example,
+This basically amounts to choosing a permutation of the three axes (where are the matrix's 1s?) and then choosing which 1s
 
-```json
-[
-    [ 0,  1,  0],
-    [-1,  0,  0],
-    [ 0,  0,  1]
-]
-```
+I use an iterative methodology which constructs the N+1-st iterate from 8 
 
-This basically amounts to choosing a permutation of the three axes (where are the matrix's 1s?) and then choosing which axes are inverted (which of the matrix's 1s are negative?).
 
-(3!) * (2^3) = 48 rotations.
 
-Note that *proper* rotations can be characterized by specifying that the matrix has an *even* number of 1s. These correspond to the 24 (proper) symmetries of the cube.
+
+
+
+

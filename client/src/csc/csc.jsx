@@ -6,9 +6,9 @@
 
     const d3 = require('d3');
 
-    const RGB = require('./rgb/rgb.js'); // remove after unit testing
-    const Flag = require('./flag/flag.jsx');
-    const requestCurve = require('./request-curve.js');
+    const RGB = require('../rgb/rgb.js'); // remove after unit testing
+    const Flag = require('../flag/flag.jsx');
+    const requestCurve = require('../request-curve.js');
 
     console.log('Entry.js has begun running');
 
