@@ -7,17 +7,17 @@
     const PropTypes = require('prop-types');
     const d3 = require('d3');
 
-    const scheme = require('./stripe-scheme.js');
-    const RGB = require('./rgb.js');
+    const schema = require('./stripe-schema.js');
+    const RGB = require('../rgb/rgb.js');
 
     class Stripe extends React.Component {
+        static propTypes = schema.propTypes
+        static defaultProps = schema.defaultProps
+
         constructor(props) {
             super(props);
             this.state = {};
         }
-
-        static propTypes = scheme.propTypes
-        static defaultProps = scheme.defaultProps
 
         componentDidMount() {
             /*
@@ -54,11 +54,9 @@
                         fill={color.formatHex}
                     />
                     <text
+                        className='stripe-text'
                         x={width / 2}
                         y={height / 2}
-                        textAnchor='middle'
-                        dominantBaseline='central'
-                        fontSize="35"
                         fill={color.invert().formatHex}
                     >{color.formatHex}</text>
                 </g>

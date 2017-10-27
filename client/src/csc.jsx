@@ -6,7 +6,7 @@
 
     const d3 = require('d3');
 
-    const RGB = require('./flag/rgb.js'); // remove after unit testing
+    const RGB = require('./rgb/rgb.js'); // remove after unit testing
     const Flag = require('./flag/flag.jsx');
     const requestCurve = require('./request-curve.js');
 

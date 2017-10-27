@@ -4,7 +4,7 @@
     var express = require('express');
 
     var cf = require('../config.js');
-    var fetchCurve = require('../methods/fetch-curve.js');
+    var serveCurve = require('../methods/serve-curve.js');
 
     var apiRouter = express.Router();
 
@@ -15,7 +15,7 @@
         var re = new RegExp([
             [
                 '^',
-                'h3',
+                'hilbert3',
                 intRE,
             ].join('\\/'),
             maybeSlash,
@@ -33,7 +33,7 @@
         })
         .get(apiRE, function(req, res) {
             var iter = req.params[0];
-            fetchCurve(iter).then(function(data) {
+            serveCurve(iter).then(function(data) {
                 res.json(data);
             });
         });

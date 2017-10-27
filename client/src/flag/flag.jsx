@@ -8,14 +8,14 @@
     const axios = require('axios');
     const shortid = require('shortid');
 
-    const scheme = require('./flag-scheme.js');
-    const RGB = require('./rgb.js');
-    const Stripe = require('./stripe.jsx');
+    const schema = require('./flag-schema.js');
+    const RGB = require('../rgb/rgb.js');
+    const Stripe = require('../stripe/stripe.jsx');
     const requestCurve = require('../request-curve.js');
 
     class Flag extends React.Component {
-        static propTypes = scheme.propTypes
-        static defaultProps = scheme.defaultProps
+        static propTypes = schema.propTypes
+        static defaultProps = schema.defaultProps
 
         constructor(props) {
             super(props);
@@ -61,6 +61,9 @@
         }
 
         positionStripes() {
+            // <Flag /> must position its <Stripe /> children, since a
+            // React component should not be concerned with its position.
+
             const stripeHeight = this.props.height / this.state.colors.length;
 
             d3

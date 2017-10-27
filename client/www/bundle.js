@@ -1800,70 +1800,7 @@ function add(adder, a, b) {
 
 
 /***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-(function () {
-    'use strict';
-
-    var RGB = function () {
-        function RGB(r, g, b) {
-            _classCallCheck(this, RGB);
-
-            this.comps = [r, g, b];
-        }
-
-        _createClass(RGB, [{
-            key: 'invert',
-            value: function invert() {
-                return new (Function.prototype.bind.apply(RGB, [null].concat(_toConsumableArray(this.comps.map(function (x) {
-                    return 255 - x;
-                })))))();
-            }
-        }, {
-            key: 'transform',
-            value: function transform(t) {
-                // t: an RGBTransform
-                var newComps = new (Function.prototype.bind.apply(RGB, [null].concat(_toConsumableArray(t.transform(this.comps)))))();
-                return newComps;
-            }
-        }, {
-            key: 'formatHex',
-            get: function get() {
-                return '#' + this.comps.map(RGB.toHex).map(function (el) {
-                    return el.toUpperCase();
-                }).map(function (el) {
-                    return '0'.repeat(2 - el.length) + el;
-                }).join('');
-            }
-        }, {
-            key: 'formatCSS',
-            get: function get() {
-                return 'rgb(' + this.comps.join(', ') + ')';
-            }
-        }], [{
-            key: 'toHex',
-            value: function toHex(c) {
-                return c.toString(16);
-            }
-        }]);
-
-        return RGB;
-    }();
-
-    module.exports = RGB;
-})();
-
-/***/ }),
+/* 26 */,
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12139,10 +12076,10 @@ module.exports = mapValues
 
     var axios = __webpack_require__(194);
 
-    var RGB = __webpack_require__(26);
+    var RGB = __webpack_require__(558);
 
     var requestCurve = function requestCurve(iter) {
-        var uri = '/api/v1/h3/' + iter;
+        var uri = '/api/v1/hilbert3/' + iter;
 
         // const scale = x => ((x + 1) * Math.pow(2, 8 - iter)) - 1;
         var scale = function scale(x) {
@@ -12190,7 +12127,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     var d3 = __webpack_require__(62);
 
-    var RGB = __webpack_require__(26); // remove after unit testing
+    var RGB = __webpack_require__(558); // remove after unit testing
     var Flag = __webpack_require__(511);
     var requestCurve = __webpack_require__(204);
 
@@ -45544,9 +45481,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var axios = __webpack_require__(194);
     var shortid = __webpack_require__(530);
 
-    var scheme = __webpack_require__(538);
-    var RGB = __webpack_require__(26);
-    var Stripe = __webpack_require__(539);
+    var schema = __webpack_require__(556);
+    var RGB = __webpack_require__(558);
+    var Stripe = __webpack_require__(559);
     var requestCurve = __webpack_require__(204);
 
     var Flag = function (_React$Component) {
@@ -45608,6 +45545,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'positionStripes',
             value: function positionStripes() {
+                // <Flag /> must position its <Stripe /> children, since a
+                // React component should not be concerned with its position.
+
                 var stripeHeight = this.props.height / this.state.colors.length;
 
                 d3.select(this.node).selectAll('g.stripe').attr('transform', function (_, i) {
@@ -45663,8 +45603,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return Flag;
     }(React.Component);
 
-    Flag.propTypes = scheme.propTypes;
-    Flag.defaultProps = scheme.defaultProps;
+    Flag.propTypes = schema.propTypes;
+    Flag.defaultProps = schema.defaultProps;
 
 
     module.exports = Flag;
@@ -46788,169 +46728,8 @@ module.exports = 0;
 
 
 /***/ }),
-/* 538 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-(function () {
-    'use strict';
-
-    var PropTypes = __webpack_require__(29);
-
-    var RGB = __webpack_require__(26);
-
-    var propTypes = {
-        iter: PropTypes.number.isRequired,
-        width: PropTypes.number,
-        height: PropTypes.number,
-        margin: PropTypes.shape({
-            top: PropTypes.number.isRequired,
-            right: PropTypes.number.isRequired,
-            bottom: PropTypes.number.isRequired,
-            left: PropTypes.number.isRequired
-        })
-    };
-
-    var defaultProps = {
-        // iter (required),
-        width: 1200,
-        height: 900,
-        margin: {
-            top: 0,
-            right: 60,
-            bottom: 0,
-            left: 30
-        }
-    };
-
-    var scheme = {
-        propTypes: propTypes,
-        defaultProps: defaultProps
-    };
-
-    module.exports = scheme;
-})();
-
-/***/ }),
-/* 539 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-(function () {
-    'use strict';
-
-    var React = __webpack_require__(12);
-    var ReactDOM = __webpack_require__(60);
-    var ReactFauxDOM = __webpack_require__(540);
-    var PropTypes = __webpack_require__(29);
-    var d3 = __webpack_require__(62);
-
-    var scheme = __webpack_require__(555);
-    var RGB = __webpack_require__(26);
-
-    var Stripe = function (_React$Component) {
-        _inherits(Stripe, _React$Component);
-
-        function Stripe(props) {
-            _classCallCheck(this, Stripe);
-
-            var _this = _possibleConstructorReturn(this, (Stripe.__proto__ || Object.getPrototypeOf(Stripe)).call(this, props));
-
-            _this.state = {};
-            return _this;
-        }
-
-        _createClass(Stripe, [{
-            key: 'componentDidMount',
-            value: function componentDidMount() {
-                /*
-                this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-                this.d3Node
-                    .datum(this.props.color)
-                    .attr('x', 200);
-                 d3
-                    .select(ReactDOM.findDOMNode(this))
-                    .datum(this.props.color)
-                    .select('rect.stripe-rect');
-                    //.attr('color'... //figure out syntax
-                 console.log(typeof this.props.color);
-                console.log(this.props.color);
-                */
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _props = this.props,
-                    color = _props.color,
-                    width = _props.width,
-                    height = _props.height,
-                    margin = _props.margin;
-
-
-                return React.createElement(
-                    'g',
-                    { className: 'stripe' },
-                    React.createElement('rect', {
-                        className: 'stripe-rect',
-                        width: width,
-                        height: height,
-                        fill: color.formatHex
-                    }),
-                    React.createElement(
-                        'text',
-                        {
-                            x: width / 2,
-                            y: height / 2,
-                            textAnchor: 'middle',
-                            dominantBaseline: 'central',
-                            fontSize: '35',
-                            fill: color.invert().formatHex
-                        },
-                        color.formatHex
-                    )
-                );
-
-                /*
-                const stripe = new ReactFauxDOM.Element('div');
-                 return stripe.toReact();
-                const {
-                    color,
-                    width,
-                    height,
-                    margin,
-                } = this.props;
-                 return (
-                    <div>
-                        <h1>Color: {color.formatHex}, {color.formatCSS}</h1>
-                    </div>
-                );
-                */
-            }
-        }]);
-
-        return Stripe;
-    }(React.Component);
-
-    Stripe.propTypes = scheme.propTypes;
-    Stripe.defaultProps = scheme.defaultProps;
-
-
-    module.exports = Stripe;
-})();
-
-/***/ }),
+/* 538 */,
+/* 539 */,
 /* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50551,7 +50330,8 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 555 */
+/* 555 */,
+/* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50562,7 +50342,233 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
     var PropTypes = __webpack_require__(29);
 
-    var RGB = __webpack_require__(26);
+    var RGB = __webpack_require__(558);
+
+    var propTypes = {
+        iter: PropTypes.number.isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
+        margin: PropTypes.shape({
+            top: PropTypes.number.isRequired,
+            right: PropTypes.number.isRequired,
+            bottom: PropTypes.number.isRequired,
+            left: PropTypes.number.isRequired
+        })
+    };
+
+    var defaultProps = {
+        // iter (required),
+        width: 1200,
+        height: 900,
+        margin: {
+            top: 0,
+            right: 60,
+            bottom: 0,
+            left: 30
+        }
+    };
+
+    var scheme = {
+        propTypes: propTypes,
+        defaultProps: defaultProps
+    };
+
+    module.exports = scheme;
+})();
+
+/***/ }),
+/* 557 */,
+/* 558 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+(function () {
+    'use strict';
+
+    var RGB = function () {
+        function RGB(r, g, b) {
+            _classCallCheck(this, RGB);
+
+            this.comps = [r, g, b];
+        }
+
+        _createClass(RGB, [{
+            key: 'invert',
+            value: function invert() {
+                return new (Function.prototype.bind.apply(RGB, [null].concat(_toConsumableArray(this.comps.map(function (x) {
+                    return 255 - x;
+                })))))();
+            }
+        }, {
+            key: 'transform',
+            value: function transform(t) {
+                // t: an RGBTransform
+                var newComps = new (Function.prototype.bind.apply(RGB, [null].concat(_toConsumableArray(t.transform(this.comps)))))();
+                return newComps;
+            }
+        }, {
+            key: 'formatHex',
+            get: function get() {
+                return '#' + this.comps.map(RGB.toHex).map(function (el) {
+                    return el.toUpperCase();
+                }).map(function (el) {
+                    return '0'.repeat(2 - el.length) + el;
+                }).join('');
+            }
+        }, {
+            key: 'formatCSS',
+            get: function get() {
+                return 'rgb(' + this.comps.join(', ') + ')';
+            }
+        }], [{
+            key: 'toHex',
+            value: function toHex(c) {
+                return c.toString(16);
+            }
+        }]);
+
+        return RGB;
+    }();
+
+    module.exports = RGB;
+})();
+
+/***/ }),
+/* 559 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function () {
+    'use strict';
+
+    var React = __webpack_require__(12);
+    var ReactDOM = __webpack_require__(60);
+    var ReactFauxDOM = __webpack_require__(540);
+    var PropTypes = __webpack_require__(29);
+    var d3 = __webpack_require__(62);
+
+    var schema = __webpack_require__(560);
+    var RGB = __webpack_require__(558);
+
+    var Stripe = function (_React$Component) {
+        _inherits(Stripe, _React$Component);
+
+        function Stripe(props) {
+            _classCallCheck(this, Stripe);
+
+            var _this = _possibleConstructorReturn(this, (Stripe.__proto__ || Object.getPrototypeOf(Stripe)).call(this, props));
+
+            _this.state = {};
+            return _this;
+        }
+
+        _createClass(Stripe, [{
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                /*
+                this.d3Node = d3.select(ReactDOM.findDOMNode(this));
+                this.d3Node
+                    .datum(this.props.color)
+                    .attr('x', 200);
+                 d3
+                    .select(ReactDOM.findDOMNode(this))
+                    .datum(this.props.color)
+                    .select('rect.stripe-rect');
+                    //.attr('color'... //figure out syntax
+                 console.log(typeof this.props.color);
+                console.log(this.props.color);
+                */
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _props = this.props,
+                    color = _props.color,
+                    width = _props.width,
+                    height = _props.height,
+                    margin = _props.margin;
+
+
+                return React.createElement(
+                    'g',
+                    { className: 'stripe' },
+                    React.createElement('rect', {
+                        className: 'stripe-rect',
+                        width: width,
+                        height: height,
+                        fill: color.formatHex
+                    }),
+                    React.createElement(
+                        'text',
+                        {
+                            className: 'stripe-text',
+                            x: width / 2,
+                            y: height / 2,
+                            fill: color.invert().formatHex
+                        },
+                        color.formatHex
+                    )
+                );
+
+                /*
+                const stripe = new ReactFauxDOM.Element('div');
+                 return stripe.toReact();
+                const {
+                    color,
+                    width,
+                    height,
+                    margin,
+                } = this.props;
+                 return (
+                    <div>
+                        <h1>Color: {color.formatHex}, {color.formatCSS}</h1>
+                    </div>
+                );
+                */
+            }
+        }]);
+
+        return Stripe;
+    }(React.Component);
+
+    Stripe.propTypes = schema.propTypes;
+    Stripe.defaultProps = schema.defaultProps;
+
+
+    module.exports = Stripe;
+})();
+
+/***/ }),
+/* 560 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+    'use strict';
+
+    var PropTypes = __webpack_require__(29);
+
+    var RGB = __webpack_require__(558);
 
     var propTypes = {
         color: PropTypes.instanceOf(RGB).isRequired,
