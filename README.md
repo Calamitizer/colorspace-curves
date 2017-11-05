@@ -90,7 +90,7 @@ where
 
 The data are returned according to the following `.json` schema:
 
-```json
+```
 [
     [<x1>, <y1>, <z1>],
     [<x2>, <y2>, <z2>],
@@ -104,7 +104,7 @@ The data are returned according to the following `.json` schema:
 `GET /api/v1/hilbert3/1`
 returns (without whitespace)
 
-```json
+```
 [
     [0, 0, 0],
     [0, 0, 1],
@@ -125,7 +125,7 @@ I found the example algorithms online for a 3-D or N-D Hilbert curve to be both 
 
 First of all, the data I manipulate are not sequences of positions, but just sequences of steps. For example, I represent the first iterate,
 
-```json
+```
 [
     [0, 0, 0],
     [0, 0, 1],
@@ -140,7 +140,7 @@ First of all, the data I manipulate are not sequences of positions, but just seq
 
 by
 
-```json
+```
 [
     [ 0,  0, +1],
     [ 0, +1,  0],
@@ -163,7 +163,7 @@ the rotations of 3-D coordinate space can be represented in code by the 48 3x3 m
 
 For example,
 
-```json
+```
 [
     [ 0,  1,  0],
     [-1,  0,  0],

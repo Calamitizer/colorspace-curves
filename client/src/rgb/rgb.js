@@ -17,6 +17,7 @@
         get formatHex() {
             return '#' + (
                 this.comps
+                    .map(Math.round)
                     .map(RGB.toHex)
                     .map(el => el.toUpperCase())
                     .map(el => '0'.repeat(2 - el.length) + el)

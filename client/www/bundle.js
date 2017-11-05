@@ -1971,7 +1971,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'formatHex',
             get: function get() {
-                return '#' + this.comps.map(RGB.toHex).map(function (el) {
+                return '#' + this.comps.map(Math.round).map(RGB.toHex).map(function (el) {
                     return el.toUpperCase();
                 }).map(function (el) {
                     return '0'.repeat(2 - el.length) + el;
