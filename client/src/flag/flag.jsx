@@ -80,7 +80,7 @@
         }
 
         componentWillReceiveProps(nextProps) {
-            if (parseInt(nextProps.iter, 10) !== parseInt(this.props.iter, 10)) {
+            if ((nextProps.iter !== this.props.iter) && (nextProps.iter !== 0)) {
                 this.updateColors(nextProps.iter);
             }
         }

@@ -12154,7 +12154,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { className: 'csc' },
                     React.createElement(Pane, {
                         iter: this.state.iter,
-                        colorsLoaded: '' + this.state.colorsLoaded,
+                        colorsLoaded: this.state.colorsLoaded,
                         onIterChange: this.handleIterChange
                     }),
                     React.createElement('hr', null),
@@ -45458,7 +45458,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'componentWillReceiveProps',
             value: function componentWillReceiveProps(nextProps) {
-                if (parseInt(nextProps.iter, 10) !== parseInt(this.props.iter, 10)) {
+                if (nextProps.iter !== this.props.iter && nextProps.iter !== 0) {
                     this.updateColors(nextProps.iter);
                 }
             }
@@ -50408,11 +50408,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             key: 'parseIter',
             value: function parseIter(value) {
                 var minIter = 1;
-                var maxIter = 5;
+                var maxIter = 4;
 
-                var parsed = parseInt(value, 10);var iter = Number.isNaN(parsed) ? 0 : parsed;
+                if (value === '') {
+                    return 0; // signifies blank input
+                }
+
+                return Math.max(Math.min(value, maxIter), minIter);
+                /*
+                return (
+                    (!value && value !== 0)
+                        ? ''
+                        : Math.max(Math.min(value, 
+                 return (value === '') ? value :
+                 const parsed = parseInt(value, 10);
+                const iter = Number.isNaN(parsed) ? 0 : parsed; 
                 // constrain within [minIter, maxIter]
-                return Math.max(minIter, Math.min(iter, maxIter));
+                return Math.max(Math.min(iter, maxIter), minIter);
+                */
             }
         }, {
             key: 'componentWillMount',
@@ -50454,7 +50467,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         ),
                         React.createElement('input', {
                             type: 'number',
-                            value: iter,
+                            value: iter || '',
                             onChange: this.handleIterChange
                         })
                     ),
@@ -50463,7 +50476,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         'h2',
                         null,
                         'Colors loaded: ',
-                        colorsLoaded
+                        '' + colorsLoaded
                     )
                 );
             }

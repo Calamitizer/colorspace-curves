@@ -26,11 +26,26 @@
 
         parseIter(value) {
             const minIter = 1;
-            const maxIter = 5;
+            const maxIter = 4;
 
-            const parsed = parseInt(value, 10); const iter = Number.isNaN(parsed) ? 0 : parsed; 
+            if (value === '') {
+                return 0; // signifies blank input
+            }
+
+            return Math.max(Math.min(value, maxIter), minIter);
+            /*
+            return (
+                (!value && value !== 0)
+                    ? ''
+                    : Math.max(Math.min(value, 
+
+            return (value === '') ? value :
+
+            const parsed = parseInt(value, 10);
+            const iter = Number.isNaN(parsed) ? 0 : parsed; 
             // constrain within [minIter, maxIter]
-            return Math.max(minIter, Math.min(iter, maxIter));
+            return Math.max(Math.min(iter, maxIter), minIter);
+            */
         }
 
         componentWillMount() {
@@ -57,14 +72,14 @@
                         <span><h2>Iteration level:</h2></span>
                         <input
                             type='number'
-                            value={iter}
+                            value={iter || ''}
                             onChange={this.handleIterChange}
                         />
                     </form>
 
                     <hr />
 
-                    <h2>Colors loaded: {colorsLoaded}</h2>
+                    <h2>Colors loaded: {'' + colorsLoaded}</h2>
                 </div>
             );
         }

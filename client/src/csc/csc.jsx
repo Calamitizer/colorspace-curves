@@ -57,7 +57,7 @@
                 <div className="csc">
                     <Pane
                         iter={this.state.iter}
-                        colorsLoaded={'' + this.state.colorsLoaded}
+                        colorsLoaded={this.state.colorsLoaded}
                         onIterChange={this.handleIterChange}
                     />
 
