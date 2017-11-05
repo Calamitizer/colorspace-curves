@@ -23,7 +23,7 @@
         height: 900,
         margin: {
             top: 0,
-            right: 60,
+            right: 30,
             bottom: 0,
             left: 30,
         },

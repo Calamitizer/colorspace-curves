@@ -25,6 +25,20 @@
             };
         }
 
+        updateColors(iter) {
+            this.setState({
+                colorsLoaded: false,
+            });
+            requestCurve(iter).then(res => {
+                console.log('res:');
+                console.log(res);
+                this.setState({
+                    colors: res,
+                    colorsLoaded: true,
+                });
+            });
+        }
+
         // make arrow/static?
         makeStripe(c) {
             const stripe = (
@@ -38,26 +52,6 @@
             );
 
             return stripe;
-        }
-
-        componentWillMount() {
-            // get colors
-            requestCurve(this.props.iter).then(res => {
-                console.log('res:');
-                console.log(res);
-                this.setState({
-                    colors: res,
-                    colorsLoaded: true,
-                });
-            });
-        }
-
-        componentDidMount() {
-            this.node = ReactDOM.findDOMNode(this);
-        }
-
-        componentDidUpdate() {
-            this.positionStripes();
         }
 
         positionStripes() {
@@ -75,6 +69,31 @@
         }
 
 
+        componentWillMount() {/* */}
+
+        componentDidMount() {
+            this.node = ReactDOM.findDOMNode(this);
+            this.updateColors(this.props.iter);
+        }
+
+        componentWillReceiveProps(nextProps) {
+            if (parseInt(nextProps.iter, 10) !== parseInt(this.props.iter, 10)) {
+                this.updateColors(nextProps.iter);
+            }
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+            return true;
+        }
+
+        componentWillUpdate() {/* */}
+
+        componentDidUpdate() {
+            this.positionStripes();
+        }
+
+        componentWillUnmount() {/* */}
+
         render() {
             const {
                 width,
@@ -83,17 +102,28 @@
             } = this.props;
 
             return (
+                <div>
+                <h1>Colors loaded: {"" + this.state.colorsLoaded}</h1>
                 <svg
+                    className='flag'
                     width={width + margin.left + margin.right}
                     height={height + margin.top + margin.bottom}
                 >
+                    <rect
+                        className='flag-border'
+                        x={margin.left}
+                        y={margin.top}
+                        width={width}
+                        height={height}
+                    />
                     <g
-                        className='flag'
+                        className='flag-g'
                         transform={`translate(${margin.left},${margin.top})`}
                     >
                         {this.state.colors.map(this.makeStripe, this)}
                     </g>
                 </svg>
+                </div>
             );
 
 
