@@ -53,12 +53,14 @@
                         height={height}
                         fill={color.formatHex}
                     />
+                    {/*
                     <text
                         className='stripe-text'
                         x={width / 2}
                         y={height / 2}
                         fill={color.invert().formatHex}
                     >{color.formatHex}</text>
+                    */}
                 </g>
             );
 

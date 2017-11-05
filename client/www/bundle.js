@@ -12095,7 +12095,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     var RGB = __webpack_require__(28); // remove after unit testing
     var Flag = __webpack_require__(509);
-    var FlagHeader = __webpack_require__(553);
+    var Pane = __webpack_require__(553);
     var requestCurve = __webpack_require__(203);
 
     /*
@@ -12123,10 +12123,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, (CSC.__proto__ || Object.getPrototypeOf(CSC)).call(this, props));
 
             _this.state = {
-                iter: 1
+                iter: 1,
+                colorsLoaded: false
             };
 
             _this.handleIterChange = _this.handleIterChange.bind(_this);
+            _this.handleColorsLoad = _this.handleColorsLoad.bind(_this);
             return _this;
         }
 
@@ -12138,17 +12140,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 });
             }
         }, {
+            key: 'handleColorsLoad',
+            value: function handleColorsLoad(status) {
+                this.setState({
+                    colorsLoaded: status
+                });
+            }
+        }, {
             key: 'render',
             value: function render() {
                 return React.createElement(
                     'div',
                     { className: 'csc' },
-                    React.createElement(FlagHeader, {
+                    React.createElement(Pane, {
                         iter: this.state.iter,
+                        colorsLoaded: '' + this.state.colorsLoaded,
                         onIterChange: this.handleIterChange
                     }),
                     React.createElement('hr', null),
-                    React.createElement(Flag, { iter: this.state.iter })
+                    React.createElement(Flag, {
+                        iter: this.state.iter,
+                        onColorsLoad: this.handleColorsLoad
+                    })
                 );
             }
         }]);
@@ -45378,9 +45391,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, (Flag.__proto__ || Object.getPrototypeOf(Flag)).call(this, props));
 
             _this.state = {
-                colors: [],
-                colorsLoaded: false
+                colors: []
             };
+
+            _this.handleColorsLoad = _this.handleColorsLoad.bind(_this);
             return _this;
         }
 
@@ -45389,17 +45403,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function updateColors(iter) {
                 var _this2 = this;
 
-                this.setState({
-                    colorsLoaded: false
-                });
+                this.handleColorsLoad(false);
                 requestCurve(iter).then(function (res) {
                     console.log('res:');
                     console.log(res);
                     _this2.setState({
-                        colors: res,
-                        colorsLoaded: true
+                        colors: res
                     });
+                    _this2.handleColorsLoad(true);
                 });
+            }
+        }, {
+            key: 'handleColorsLoad',
+            value: function handleColorsLoad(status) {
+                this.props.onColorsLoad(status);
             }
 
             // make arrow/static?
@@ -45471,36 +45488,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
                 return React.createElement(
-                    'div',
-                    null,
+                    'svg',
+                    {
+                        className: 'flag',
+                        width: width + margin.left + margin.right,
+                        height: height + margin.top + margin.bottom
+                    },
+                    React.createElement('rect', {
+                        className: 'flag-border',
+                        x: margin.left,
+                        y: margin.top,
+                        width: width,
+                        height: height
+                    }),
                     React.createElement(
-                        'h1',
-                        null,
-                        'Colors loaded: ',
-                        "" + this.state.colorsLoaded
-                    ),
-                    React.createElement(
-                        'svg',
+                        'g',
                         {
-                            className: 'flag',
-                            width: width + margin.left + margin.right,
-                            height: height + margin.top + margin.bottom
+                            className: 'flag-g',
+                            transform: 'translate(' + margin.left + ',' + margin.top + ')'
                         },
-                        React.createElement('rect', {
-                            className: 'flag-border',
-                            x: margin.left,
-                            y: margin.top,
-                            width: width,
-                            height: height
-                        }),
-                        React.createElement(
-                            'g',
-                            {
-                                className: 'flag-g',
-                                transform: 'translate(' + margin.left + ',' + margin.top + ')'
-                            },
-                            this.state.colors.map(this.makeStripe, this)
-                        )
+                        this.state.colors.map(this.makeStripe, this)
                     )
                 );
 
@@ -46684,9 +46691,9 @@ module.exports = 0;
         height: 900,
         margin: {
             top: 0,
-            right: 30,
+            right: 0,
             bottom: 0,
-            left: 30
+            left: 0
         }
     };
 
@@ -46772,17 +46779,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         width: width,
                         height: height,
                         fill: color.formatHex
-                    }),
-                    React.createElement(
-                        'text',
-                        {
-                            className: 'stripe-text',
-                            x: width / 2,
-                            y: height / 2,
-                            fill: color.invert().formatHex
-                        },
-                        color.formatHex
-                    )
+                    })
                 );
 
                 /*
@@ -50385,22 +50382,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     var schema = __webpack_require__(554);
 
-    var FlagHeader = function (_React$Component) {
-        _inherits(FlagHeader, _React$Component);
+    var Pane = function (_React$Component) {
+        _inherits(Pane, _React$Component);
 
-        function FlagHeader(props) {
-            _classCallCheck(this, FlagHeader);
+        function Pane(props) {
+            _classCallCheck(this, Pane);
 
-            var _this = _possibleConstructorReturn(this, (FlagHeader.__proto__ || Object.getPrototypeOf(FlagHeader)).call(this, props));
+            var _this = _possibleConstructorReturn(this, (Pane.__proto__ || Object.getPrototypeOf(Pane)).call(this, props));
 
             _this.state = {
                 /* */
             };
+
             _this.handleIterChange = _this.handleIterChange.bind(_this);
             return _this;
         }
 
-        _createClass(FlagHeader, [{
+        _createClass(Pane, [{
             key: 'handleIterChange',
             value: function handleIterChange(e) {
                 var newIter = this.parseIter(e.target.value);
@@ -50412,9 +50410,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var minIter = 1;
                 var maxIter = 5;
 
-                var parsed = parseInt(value, 10);
-                var iter = Number.isNaN(parsed) ? 0 : parsed;
-
+                var parsed = parseInt(value, 10);var iter = Number.isNaN(parsed) ? 0 : parsed;
                 // constrain within [minIter, maxIter]
                 return Math.max(minIter, Math.min(iter, maxIter));
             }
@@ -50436,12 +50432,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'render',
             value: function render() {
-                var iter = this.props.iter;
+                var _props = this.props,
+                    iter = _props.iter,
+                    colorsLoaded = _props.colorsLoaded;
 
 
                 return React.createElement(
                     'div',
-                    { className: 'flag-settings' },
+                    { className: 'pane' },
                     React.createElement(
                         'form',
                         null,
@@ -50459,19 +50457,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             value: iter,
                             onChange: this.handleIterChange
                         })
+                    ),
+                    React.createElement('hr', null),
+                    React.createElement(
+                        'h2',
+                        null,
+                        'Colors loaded: ',
+                        colorsLoaded
                     )
                 );
             }
         }]);
 
-        return FlagHeader;
+        return Pane;
     }(React.Component);
 
-    FlagHeader.propTypes = schema.propTypes;
-    FlagHeader.defaultProps = schema.defaultProps;
+    Pane.propTypes = schema.propTypes;
+    Pane.defaultProps = schema.defaultProps;
 
 
-    module.exports = FlagHeader;
+    module.exports = Pane;
 })();
 
 /***/ }),
@@ -50487,11 +50492,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var PropTypes = __webpack_require__(23);
 
     var propTypes = {
-        /* */
+        colorsLoaded: PropTypes.bool.isRequired
     };
 
     var defaultProps = {
-        /* */
+        // colorsLoaded: required
     };
 
     var scheme = {

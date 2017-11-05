@@ -21,22 +21,25 @@
             super(props);
             this.state = {
                 colors: [],
-                colorsLoaded: false,
             };
+
+            this.handleColorsLoad = this.handleColorsLoad.bind(this);
         }
 
         updateColors(iter) {
-            this.setState({
-                colorsLoaded: false,
-            });
+            this.handleColorsLoad(false);
             requestCurve(iter).then(res => {
                 console.log('res:');
                 console.log(res);
                 this.setState({
                     colors: res,
-                    colorsLoaded: true,
                 });
+                this.handleColorsLoad(true);
             });
+        }
+
+        handleColorsLoad(status) {
+            this.props.onColorsLoad(status);
         }
 
         // make arrow/static?
@@ -102,8 +105,6 @@
             } = this.props;
 
             return (
-                <div>
-                <h1>Colors loaded: {"" + this.state.colorsLoaded}</h1>
                 <svg
                     className='flag'
                     width={width + margin.left + margin.right}
@@ -123,7 +124,6 @@
                         {this.state.colors.map(this.makeStripe, this)}
                     </g>
                 </svg>
-                </div>
             );
 
 

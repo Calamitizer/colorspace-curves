@@ -1,3 +1,6 @@
+@import '../less-common/colors.cnst.less';
+@import '../less-common/media-breakpoints.cnst.less';
+
 html {
     box-sizing: border-box;
 }
@@ -9,5 +12,33 @@ html {
 }
 
 .csc {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    overflow-x: hidden;
+    min-height: 100vh;
+    height: 100vw;
+    max-height: 100vh;
+
+    &,
+    * {
+        text-rendering: optimizelegibility;
+    }
+
+    p,
+    a,
+    span {
+        font-family: 'Zilla Slab', serif;
+        font-size: 1em;
+    }
+
+    h1, h2, h3,
+    h4, h5, h6 {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        text-align: center;
+    }
 }

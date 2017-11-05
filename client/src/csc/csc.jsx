@@ -8,7 +8,7 @@
 
     const RGB = require('../rgb/rgb.js'); // remove after unit testing
     const Flag = require('../flag/flag.jsx');
-    const FlagHeader = require('../flag-header/flag-header.jsx');
+    const Pane = require('../pane/pane.jsx');
     const requestCurve = require('../request-curve.js');
 
     /*
@@ -33,9 +33,11 @@
             super(props);
             this.state = {
                 iter: 1,
+                colorsLoaded: false,
             };
 
             this.handleIterChange = this.handleIterChange.bind(this);
+            this.handleColorsLoad = this.handleColorsLoad.bind(this);
         }
 
         handleIterChange(iter) {
@@ -44,15 +46,27 @@
             });
         }
 
+        handleColorsLoad(status) {
+            this.setState({
+                colorsLoaded: status,
+            });
+        }
+
         render() {
             return (
                 <div className="csc">
-                    <FlagHeader
+                    <Pane
                         iter={this.state.iter}
+                        colorsLoaded={'' + this.state.colorsLoaded}
                         onIterChange={this.handleIterChange}
                     />
+
                     <hr />
-                    <Flag iter={this.state.iter} />
+
+                    <Flag
+                        iter={this.state.iter}
+                        onColorsLoad={this.handleColorsLoad}
+                    />
                 </div>
             );
         }

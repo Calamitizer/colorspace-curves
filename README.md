@@ -36,7 +36,7 @@ Each React component (e.g. `<Foo />`) has a dedicated folder containing
 
 * `foo.jsx` — its component definition file
 * `foo-schema.js` — its schema file defining its property types and default props
-* `foo.less` — its Less sheet defining all style common to all instances (i.e. style independent of a particular instance's state and props).
+* `foo-style.less` — its Less sheet defining all style common to all instances (i.e. style independent of a particular instance's state and props).
 
 Another folder is `rgb/`, containing the `RGB` class and some helper code to apply transformations to an instance of it.
 
