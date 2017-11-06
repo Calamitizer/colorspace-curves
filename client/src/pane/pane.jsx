@@ -20,11 +20,11 @@
         }
 
         handleIterChange(e) {
-            const newIter = this.parseIter(e.target.value);
+            const newIter = Pane.parseIter(e.target.value);
             this.props.onIterChange(newIter);
         }
 
-        parseIter(value) {
+        static parseIter(value) {
             const minIter = 1;
             const maxIter = 4;
 

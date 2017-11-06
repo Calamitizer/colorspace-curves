@@ -9,9 +9,11 @@
     const shortid = require('shortid');
 
     const schema = require('./flag-schema.js');
-    const RGB = require('../rgb/rgb.js');
+
     const Stripe = require('../stripe/stripe.jsx');
     const requestCurve = require('../request-curve.js');
+    const RGB = require('../rgb/rgb.js');
+    const RGBPerm = require('../rgb/rgb-perm.js');
 
     class Flag extends React.Component {
         static propTypes = schema.propTypes
@@ -26,16 +28,36 @@
             this.handleColorsLoad = this.handleColorsLoad.bind(this);
         }
 
+        // will eventually be interactive
+        // (prop of <Flag />, state of <CSC />).
+        // for now, I just picked one that looks good =p
+        // perm = new RGBPerm([1, 2, 3], [-1, +1, +1])
+        perm = new RGBPerm([1, 2, 3], [-1, +1, +1])
+
         updateColors(iter) {
             this.handleColorsLoad(false);
-            requestCurve(iter).then(res => {
-                console.log('res:');
-                console.log(res);
-                this.setState({
-                    colors: res,
+            requestCurve(iter)
+                .then(colors => {
+                    console.log('colors before:');
+                    console.log(colors);
+                    return colors;
+                })
+                .then(colors => {
+                    return colors.map(color => {
+                        return this.perm.transform(color);
+                    });
+                })
+                .then(colors => {
+                    console.log('colors before:');
+                    console.log(colors);
+                    return colors;
+                })
+                .then(colors => {
+                    this.setState({
+                        colors: colors,
+                    });
+                    this.handleColorsLoad(true);
                 });
-                this.handleColorsLoad(true);
-            });
         }
 
         handleColorsLoad(status) {

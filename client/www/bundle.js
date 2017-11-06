@@ -12095,7 +12095,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     var RGB = __webpack_require__(28); // remove after unit testing
     var Flag = __webpack_require__(509);
-    var Pane = __webpack_require__(553);
+    var Pane = __webpack_require__(554);
     var requestCurve = __webpack_require__(203);
 
     /*
@@ -45378,9 +45378,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var shortid = __webpack_require__(528);
 
     var schema = __webpack_require__(536);
-    var RGB = __webpack_require__(28);
+
     var Stripe = __webpack_require__(537);
     var requestCurve = __webpack_require__(203);
+    var RGB = __webpack_require__(28);
+    var RGBPerm = __webpack_require__(553);
 
     var Flag = function (_React$Component) {
         _inherits(Flag, _React$Component);
@@ -45390,6 +45392,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             var _this = _possibleConstructorReturn(this, (Flag.__proto__ || Object.getPrototypeOf(Flag)).call(this, props));
 
+            _this.perm = new RGBPerm([1, 2, 3], [-1, +1, +1]);
+
             _this.state = {
                 colors: []
             };
@@ -45398,17 +45402,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             return _this;
         }
 
+        // will eventually be interactive
+        // (prop of <Flag />, state of <CSC />).
+        // for now, I just picked one that looks good =p
+        // perm = new RGBPerm([1, 2, 3], [-1, +1, +1])
+
+
         _createClass(Flag, [{
             key: 'updateColors',
             value: function updateColors(iter) {
                 var _this2 = this;
 
                 this.handleColorsLoad(false);
-                requestCurve(iter).then(function (res) {
-                    console.log('res:');
-                    console.log(res);
+                requestCurve(iter).then(function (colors) {
+                    console.log('colors before:');
+                    console.log(colors);
+                    return colors;
+                }).then(function (colors) {
+                    return colors.map(function (color) {
+                        return _this2.perm.transform(color);
+                    });
+                }).then(function (colors) {
+                    console.log('colors before:');
+                    console.log(colors);
+                    return colors;
+                }).then(function (colors) {
                     _this2.setState({
-                        colors: res
+                        colors: colors
                     });
                     _this2.handleColorsLoad(true);
                 });
@@ -50370,6 +50390,78 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+(function () {
+    'use strict';
+
+    var RGBPerm = function () {
+        function RGBPerm(perm, sign) {
+            _classCallCheck(this, RGBPerm);
+
+            /*
+            perm: an permutation on 3 elements,
+            in the form of a length-3 array
+            e.g. [2, 1, 3] refers to the permutation
+            sending 1 -> 2, 2 -> 1, and 3 -> 3
+             sign: a length-3 array representing
+            the signature of which dimensions
+            are inverted
+            e.g. [-1, +1, -1] inverts
+            dimensions 1 and 3
+            */
+            this.perm = perm;
+            this.sign = sign;
+        }
+
+        _createClass(RGBPerm, [{
+            key: 'image',
+            value: function image(i) {
+                return this.perm[i - 1];
+            }
+        }, {
+            key: 'preimage',
+            value: function preimage(i) {
+                return this.perm.indexOf(i) + 1;
+            }
+        }, {
+            key: 'direction',
+            value: function direction(i) {
+                return this.sign[i - 1];
+            }
+        }, {
+            key: 'transform',
+            value: function transform(comps) {
+                var _this = this;
+
+                var newComps = comps.map(function (_, i) {
+                    var val = comps[_this.preimage(i + 1) - 1];
+                    return !!~_this.direction(i + 1) ? val : 255 - val;
+                });
+
+                return newComps;
+            }
+        }]);
+
+        return RGBPerm;
+    }();
+
+    var t = new RGBPerm([3, 1, 2], [-1, -1, -1]);
+    var comps = [0, 127, 255];
+    console.log(t.transform(comps));
+
+    module.exports = RGBPerm;
+})();
+
+/***/ }),
+/* 554 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -50380,7 +50472,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var React = __webpack_require__(11);
     var ReactDOM = __webpack_require__(43);
 
-    var schema = __webpack_require__(554);
+    var schema = __webpack_require__(555);
 
     var Pane = function (_React$Component) {
         _inherits(Pane, _React$Component);
@@ -50401,31 +50493,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         _createClass(Pane, [{
             key: 'handleIterChange',
             value: function handleIterChange(e) {
-                var newIter = this.parseIter(e.target.value);
+                var newIter = Pane.parseIter(e.target.value);
                 this.props.onIterChange(newIter);
-            }
-        }, {
-            key: 'parseIter',
-            value: function parseIter(value) {
-                var minIter = 1;
-                var maxIter = 4;
-
-                if (value === '') {
-                    return 0; // signifies blank input
-                }
-
-                return Math.max(Math.min(value, maxIter), minIter);
-                /*
-                return (
-                    (!value && value !== 0)
-                        ? ''
-                        : Math.max(Math.min(value, 
-                 return (value === '') ? value :
-                 const parsed = parseInt(value, 10);
-                const iter = Number.isNaN(parsed) ? 0 : parsed; 
-                // constrain within [minIter, maxIter]
-                return Math.max(Math.min(iter, maxIter), minIter);
-                */
             }
         }, {
             key: 'componentWillMount',
@@ -50480,6 +50549,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     )
                 );
             }
+        }], [{
+            key: 'parseIter',
+            value: function parseIter(value) {
+                var minIter = 1;
+                var maxIter = 4;
+
+                if (value === '') {
+                    return 0; // signifies blank input
+                }
+
+                return Math.max(Math.min(value, maxIter), minIter);
+                /*
+                return (
+                    (!value && value !== 0)
+                        ? ''
+                        : Math.max(Math.min(value, 
+                 return (value === '') ? value :
+                 const parsed = parseInt(value, 10);
+                const iter = Number.isNaN(parsed) ? 0 : parsed; 
+                // constrain within [minIter, maxIter]
+                return Math.max(Math.min(iter, maxIter), minIter);
+                */
+            }
         }]);
 
         return Pane;
@@ -50493,7 +50585,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 })();
 
 /***/ }),
-/* 554 */
+/* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    class RGBTransform {
+    class RGBPerm {
         constructor(perm, sign) {
             /*
             perm: an permutation on 3 elements,
@@ -45,9 +45,9 @@
 
     }
 
-    const t = new RGBTransform([3, 1, 2], [-1, -1, -1]);
+    const t = new RGBPerm([3, 1, 2], [-1, -1, -1]);
     const comps = [0, 127, 255];
     console.log(t.transform(comps));
 
-    module.exports = RGBTransform;
+    module.exports = RGBPerm;
 }());
